@@ -24,3 +24,13 @@ $tableContent->addColumn('mithun', function (){
 });
 
 return (new ShowTable($tableContent) )->showTable();
+
+function doIt($string, $callback) 
+{ 
+    echo $callback($string); 
+} 
+
+// Call doIt() and pass our sample callback function's name. 
+doIt("this is my data", function ($data){
+    return 'from paris '.$data.'\n';
+});
