@@ -1,36 +1,52 @@
 <?php
 
-use App\ShowTable;
-use App\TableContainer;
+use App\ShowProcessData;
+use App\ProcessDataContainer;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 
 $tableArr = [
-    ["Name", 'Licence', 'Price'],
-    ["Volvo", '95-PL-AO', 18000],
-    ["Saab", 'PL-PO-JB',  20000],
-    ["Land Rover", 'ZD-85-95', 15000],
-    ["BMW", '30-KL-PO', 10000],
-    ["Mercedes", '51-ZD-ZD', 20000],
-    ["Maserati", 'JB-47-02', 30000],
+    [
+        "name" => "Volvo",
+        "licence" => '95-PL-AO',
+        "price" => 18000,
+    ], [
+        "name" => "Saab",
+        "licence" => 'PL-PO-JB',
+        "price" => 18000,
+    ], [
+        "name" => "Land Rover",
+        "licence" => 'ZD-85-95',
+        "price" => 18000,
+    ], [
+        "name" => "BMW",
+        "licence" => '0-KL-PO',
+        "price" => 18000,
+    ], [
+        "name" => "Mercedes",
+        "licence" => '51-ZD-ZD',
+        "price" => 18000,
+    ], [
+        "name" => "Maserati",
+        "licence" => 'JB-47-02',
+        "price" => 18000,
+    ],
 ];
 
 
-$tableContent = new TableContainer($tableArr);
+$tableContent = new ShowProcessData($tableArr);
 
-$tableContent->addColumn('mithun', function (){
-    return ["Maati", 'J2', 30];
-});
+    $tableContent
+    ->addColumn('action', function ($row) {
 
-return (new ShowTable($tableContent) )->showTable();
+        return '<a href="/edit/' . $row['licence'] . '">' . $row['name'] . '</a>';
 
-function doIt($string, $callback) 
-{ 
-    echo $callback($string); 
-} 
+    })
+    ->editColumn('price', function ($row) {
 
-// Call doIt() and pass our sample callback function's name. 
-doIt("this is my data", function ($data){
-    return 'from paris '.$data.'\n';
-});
+        return $row['price'] . ' tk';
+
+    })
+    ->deleteColumn('licence')
+    ->makeTable();
